@@ -1,0 +1,17 @@
+RewriteEngine On
+RewriteBase /
+
+# API isteklerini api.php'ye yönlendir
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^api/user/(.*)$ api.php [QSA,L]
+
+# API2 isteklerini api2.php'ye yönlendir
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^api2/user/(.*)$ api2.php [QSA,L]
+
+# Diğer tüm istekleri ilgili PHP dosyalarına yönlendir
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ $1.php [QSA,L] 

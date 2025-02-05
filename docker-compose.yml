@@ -1,0 +1,49 @@
+version: '3'
+
+services:
+  web:
+    build: .
+    ports:
+      - "8080:80"
+    volumes:
+      - ./src:/var/www/html
+      - ./images:/var/www/html/images
+      - ./uploads:/var/www/html/uploads
+    depends_on:
+      - db
+      - admin_db
+    environment:
+      - MYSQL_HOST=db
+      - MYSQL_USER=sqli_user
+      - MYSQL_PASSWORD=sqli_pass
+      - MYSQL_DATABASE=sqli_db
+      - ADMIN_MYSQL_HOST=admin_db
+      - ADMIN_MYSQL_USER=admin_user
+      - ADMIN_MYSQL_PASSWORD=admin_pass
+      - ADMIN_MYSQL_DATABASE=admin_db
+
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: sqli_db
+      MYSQL_USER: sqli_user
+      MYSQL_PASSWORD: sqli_pass
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./sql-scripts:/docker-entrypoint-initdb.d
+
+  admin_db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: admin_root_password
+      MYSQL_DATABASE: admin_db
+      MYSQL_USER: admin_user
+      MYSQL_PASSWORD: admin_pass
+    volumes:
+      - admin_mysql_data:/var/lib/mysql
+      - ./admin-scripts/admin.sql:/docker-entrypoint-initdb.d/admin.sql
+
+volumes:
+  mysql_data:
+  admin_mysql_data:
