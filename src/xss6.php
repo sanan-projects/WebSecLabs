@@ -68,8 +68,6 @@ if(isset($_GET['search'])) {
         http_response_code(404);
         die('<html><head><title>404 Not Found</title></head><body bgcolor="white"><center><h1>404 Not Found</h1></center><hr><center>nginx/1.27.3</center></body></html>');
     }
-    // URL-encoded parantezleri normal parantezlere çevir
-    $search = str_replace(['%28', '%29'], ['(', ')'], $search);
 } else {
     $search = '';
 }
